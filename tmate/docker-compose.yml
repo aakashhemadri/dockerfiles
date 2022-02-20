@@ -1,0 +1,19 @@
+version: '3.7'
+services:
+  tmate-ssh-server:
+    container_name: tmate-ssh-server
+    image: tmate/tmate-ssh-server:latest
+    environment:
+      - SSH_KEYS_PATH=${SSH_KEYS_PATH}
+      - HAS_WEBSOCKET=${HAS_WEBSOCKET}
+      - SSH_HOSTNAME=${SSH_HOSTNAME}
+      - SSH_PORT_LISTEN=${SSH_PORT_LISTEN}
+      - SSH_PORT_ADVERTISE=${SSH_PORT_ADVERTISE}
+      - USE_PROXY_PROTOCOL=${USE_PROXY_PROTOCOL}
+    volumes:
+      - "$PWD/keys:/${SSH_KEYS_PATH}"
+    restart: unless-stopped
+    ports:
+      - 23:${SSH_PORT_LISTEN}
+    cap_add:
+      - SYS_ADMIN
